@@ -71,6 +71,11 @@ describe('registerUser', () => {
         args.forEach(a => {
             expect(() => {lib.registerUser(a)}).toThrow();
         });
+    });
 
+    it('should return a user object if valid username is passed', () => {
+        const result = lib.registerUser('Marcus');
+        expect(result).toMatchObject({ username: 'Marcus'});
+        expect(result.id).toBeGreaterThan(0);
     });
 });
