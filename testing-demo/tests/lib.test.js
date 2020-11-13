@@ -32,3 +32,45 @@ describe('greet', () => {
 
     });
 });
+
+
+describe('getCurrencies', () => {
+
+   
+
+        it('should return supported currencies', () => {
+            const result = lib.getCurrencies();
+
+            expect(result).toContain('USD');
+            expect(result).toContain('AUD');
+            expect(result).toContain('EUR');
+
+            //below is the best way to test an array:
+
+            expect(result).toEqual(expect.arrayContaining(['AUD', 'EUR', 'USD']));
+
+
+        });
+});
+
+
+describe('getProduct', () => {
+    it('should return the product with the given id', () => {
+       const result = lib.getProduct(1);
+       expect(result).toEqual({id: 1, price: 10});
+       expect(result).toMatchObject({id: 1, price: 10});
+
+       expect(result).toHaveProperty('id', 1);
+    });
+});
+
+describe('registerUser', () => {
+
+    it('should throw if username is falsy', () =>{
+        const args = [null, undefined, NaN, '', 0, false];
+        args.forEach(a => {
+            expect(() => {lib.registerUser(a)}).toThrow();
+        });
+
+    });
+});
