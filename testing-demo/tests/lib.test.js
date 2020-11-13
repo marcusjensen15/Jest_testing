@@ -28,6 +28,7 @@ describe('greet', () => {
     it('should return the greeting message', () => {
        const result = lib.greet('Marcus');
        expect(result).toMatch(/Marcus/);
+       expect(result).toContain('Marcus');
 
     });
 });
