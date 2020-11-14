@@ -102,15 +102,33 @@ describe('applyDiscount', () => {
 describe('notifyCustomer', () => {
 
     it('should send an email to the customer', () => {
-        db.getCustomerSync = function(customerId) {
-            return {email: 'a', };
-        }
-        let mailSent = false;
 
-        mail.send = function(email, message) {
-            mailSent = true;
-        }
+        // const mockFunction = jest.fn();
+        // mockFunction.mockReturnValue(1);
+        // mockFunction/mockResolvedValue(1);
+        // mockFunction.mockRejectedValue(new Error('...'));
+        // const result = await mockFunction();
+
+        // mockFunction();
+        // we are going to replace getCustomerSync with a mock function. below line is equivalent to the alternitive funciton below it.
+
+        db.getCustomerSync = jest.fn().mockReturnValue({ email: 'a'});
+        mail.send = jest.fn();
+
+        // db.getCustomerSync = function(customerId) {
+        //     return {email: 'a', };
+        // }
+        // let mailSent = false;
+
+        // mail.send = function(email, message) {
+        //     mailSent = true;
+        // }
+        // lib.notifyCustomer({ customerId: 1});
+        // expect(mailSent).toBe(true);
+
         lib.notifyCustomer({ customerId: 1});
-        expect(mailSent).toBe(true);
+        expect(mail.send).toHaveBeenCalled();
+        expect(mail.send.mock.calls[0][0]).toBe('a');
+        expect(mail.send.mock.calls[0][1]).toMatch(/order/);
     });
 });
